@@ -1,0 +1,31 @@
+{
+  "name": "svg-icon-font",
+  "version": "1.0.0",
+  "description": "Convert SVG icons into a webfont",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/proxima-b/svg-icon-font.git"
+  },
+  "keywords": [
+    "svg",
+    "font",
+    "webfont",
+    "javascript",
+    "nodejs"
+  ],
+  "author": "proxima-b",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/proxima-b/svg-icon-font/issues"
+  },
+  "homepage": "https://github.com/proxima-b/svg-icon-font#readme",
+  "dependencies": {
+    "fonteditor-core": "0.0.37",
+    "svg2ttf": "4.1.0",
+    "svgicons2svgfont": "5.0.1"
+  }
+}
