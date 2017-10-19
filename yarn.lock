@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/node@^8.0.34":
+  version "8.0.34"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.34.tgz#55f801fa2ddb2a40dd6dfc15ecfe1dde9c129fe9"
+
 argparse@^1.0.6:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.9.tgz#73d83bc263f86e97f8cc4f6bae1b0e90a7d22c86"
@@ -19,6 +23,12 @@ core-util-is@~1.0.0:
 cubic2quad@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/cubic2quad/-/cubic2quad-1.1.1.tgz#69b19c61a3f5b41ecf2f1d5fae8fb03415aa8b15"
+
+es6-module-loader@^0.17.4:
+  version "0.17.11"
+  resolved "https://registry.yarnpkg.com/es6-module-loader/-/es6-module-loader-0.17.11.tgz#094f042e3b4d3086bcfd17380affabdfc99f35d7"
+  dependencies:
+    when "^3.7.2"
 
 esprima@^2.7.3:
   version "2.7.3"
@@ -161,6 +171,17 @@ svgpath@^2.1.5:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/svgpath/-/svgpath-2.2.1.tgz#0834bb67c89a76472b2bd06cc101fa7b517b222c"
 
+systemjs@0.19.6:
+  version "0.19.6"
+  resolved "https://registry.yarnpkg.com/systemjs/-/systemjs-0.19.6.tgz#64307481ed1dd6c07c1f1e2367af72c99e98e347"
+  dependencies:
+    es6-module-loader "^0.17.4"
+    when "^3.7.2"
+
+typescript@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.5.3.tgz#df3dcdc38f3beb800d4bc322646b04a3f6ca7f0d"
+
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
@@ -170,6 +191,10 @@ varstream@^0.3.2:
   resolved "https://registry.yarnpkg.com/varstream/-/varstream-0.3.2.tgz#18ac6494765f3ff1a35ad9a4be053bec188a5de1"
   dependencies:
     readable-stream "^1.0.33"
+
+when@^3.7.2:
+  version "3.7.8"
+  resolved "https://registry.yarnpkg.com/when/-/when-3.7.8.tgz#c7130b6a7ea04693e842cdc9e7a1f2aa39a39f82"
 
 xmldom@~0.1.19, xmldom@~0.1.22:
   version "0.1.27"

@@ -4,7 +4,9 @@
   "description": "Convert SVG icons into a webfont",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ./",
+    "fonts": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,10 @@
   "dependencies": {
     "fonteditor-core": "0.0.37",
     "svg2ttf": "4.1.0",
-    "svgicons2svgfont": "5.0.1"
+    "svgicons2svgfont": "5.0.1",
+    "typescript": "^2.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.34"
   }
 }
