@@ -6,11 +6,12 @@ export class Config {
 
     constructor () {
         this.params = {
-            mapPath: 'svgicon.map.json',
+            mapFile: 'svgicon.map.json',
             autoMap: true,
-            svgsPath: 'xxx',
+            svgsPath: '',
             fontName: '',
             fileName: '',
+            outPath: '',
             scssFileName: '',
             tsFilename: ''
         }

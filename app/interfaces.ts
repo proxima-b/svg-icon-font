@@ -11,11 +11,21 @@ export interface IconObject {
  *
  */
 export interface IConfig {
-    mapPath: string;
+    mapFile: string;
     autoMap: boolean;
     svgsPath: string;
+    outPath: string;
     fontName: string;
     fileName: string;
     scssFileName: string;
     tsFilename: string;
+}
+
+/**
+ * File object
+ */
+export interface IFile {
+    path: string;
+    name: string;
+    extension: string;
 }

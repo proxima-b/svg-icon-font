@@ -1,18 +1,19 @@
 import * as fs from 'fs';
-import * as path from 'path';
 
 import { IConfig, IconObject } from './interfaces';
 import { Tools } from './tools';
 
 /**
- *
+ * Get the content of the mapping file and update it if needed
  */
 export class Loader {
 
-    tools;
-    icons = [];
-    mappedIcons = [];
-    mapFile: IconObject[];
+    // Tools Class
+    private tools: Tools;
+    // Content of the map file
+    public mapFile: IconObject[];
+    // Promise resolver
+    private resolve: Function;
 
     /**
      *
@@ -23,57 +24,52 @@ export class Loader {
     }
 
     /**
+     * Initialise
+     */
+    public load (): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.resolve = resolve;
+            this.getMap();
+        });
+    }
+
+    /**
      * Get the mapping file content, and update if automapping
      */
-    public getMap (): void {
+    private getMap (): void {
         let newFile: number;
 
         // If the mapping file doesn't exist, create it
-        if (!fs.existsSync(this.config.mapPath)) {
+        this.tools.prepareFile(this.config.mapFile, 'Mapping file');
 
-            // Warning
-            this.tools.log('Could not find mapping file');
+        // Read the mapping file and update it if needed
+        this.tools.readFile(this.config.mapFile, 'utf8')
+            .then((data) => {
+                // Get the mapping file content
+                if (Object.keys(data).length > 0) {
+                    this.mapFile = JSON.parse(<string> data);
+                }
 
-            // Create the file
-            newFile = fs.openSync(this.config.mapPath, 'w');
-
-            // Log if the file was created
-            if (newFile) {
-                this.tools.log('Mapping file created: svgicon.map.json');
-            }
-        }
-
-
-
-        // Read the file
-        fs.readFile(this.config.mapPath, 'utf8', (err, data) => {
-
-            // Error
-            this.tools.error(err, 'ENOENT', 'Mapping file could not be created');
-
-            // Get the mapping file content
-            if (data) {
-                this.mapFile = JSON.parse(data);
-            }
-
-            // If auto mapping is turned on, update the map
-            if(this.config.autoMap === true) {
-                this.updateMap();
-            }
-        });
+                // If auto mapping is turned on, update the map
+                if(this.config.autoMap === true) {
+                    this.updateMap();
+                } else {
+                    this.resolve();
+                }
+            });
     }
 
     /**
      * Initialise updating the mapping files
      */
-    updateMap (): void {
+    private updateMap (): void {
         this.updateFlatMap(this.mapFile);
     }
 
     /**
      *
      */
-    public updateFlatMap (existing: IconObject[] = []): void {
+    private updateFlatMap (existing: IconObject[] = []): void {
         let writeData: string;
         let lastKey: number = this.tools.hexToDec('A000');
 
@@ -82,19 +78,32 @@ export class Loader {
          */
         fs.readdir(this.config.svgsPath, (err: object, files: string[]) => {
             // Check if the file exists
-            this.tools.error(err, 'ENOENT', 'svgsPath could not be found');
+            this.tools.errorHandler(err, {filename: 'svgPaths'});
 
             // Remove and existing files from the files array
             if(existing) {
-                existing.some(icon => {
-                    if (icon.path && files.indexOf(icon.path) > -1) {
-                        files.splice(files.indexOf(icon.path), 1);
+                const stash = [];
 
-                        // Bail out if all the files are already mapped
-                        return files.length === 0;
+                existing.forEach((icon, index) => {
+                    const iconFileName = this.tools.getFileName(icon.path);
+
+                    if (icon.path && files.indexOf(iconFileName) === -1) {
+                        // Remove any icons that have been deleted
+                        existing.splice(index, 1);
+                    } else {
+                        // Add new files that have been added
+                        files.splice(files.indexOf(iconFileName), 1);
+                    }
+
+                    // If something went wrong and there are duplicates, remove them
+                    if (stash.indexOf(icon.path) > -1) {
+                        existing.splice(index, 1);
+                    } else {
+                        stash.push(icon.path);
                     }
                 });
 
+                // Get the last char key
                 if (existing[existing.length -1]) {
                     lastKey = this.tools.hexToDec(existing[existing.length - 1].char);
                 }
@@ -105,7 +114,7 @@ export class Loader {
                 lastKey++;
                 existing.push({
                     name: file.replace(/\.[^/.]+$/, ''),
-                    path: file,
+                    path: this.tools.formatDirName(this.config.svgsPath) + this.tools.formatFileName(file),
                     char: this.tools.decToHex(lastKey)
                 });
             });
@@ -114,12 +123,13 @@ export class Loader {
                 this.mapFile = existing;
                 writeData = JSON.stringify(existing);
 
-                fs.writeFile(this.config.mapPath, writeData, (err) => {
+                fs.writeFile(this.config.mapFile, writeData, (err) => {
                     if (err) {
                         return this.tools.log(err);
                     }
 
                     this.tools.log('Mapping file updated');
+                    this.resolve();
                 });
             }
         })

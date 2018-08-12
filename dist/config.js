@@ -1,26 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Config = /** @class */ (function () {
-    function Config() {
+class Config {
+    constructor() {
         this.params = {
-            mapPath: 'svgicon.map.json',
+            mapFile: 'svgicon.map.json',
             autoMap: true,
-            svgsPath: 'xxx',
+            svgsPath: '',
             fontName: '',
             fileName: '',
+            outPath: '',
             scssFileName: '',
             tsFilename: ''
         };
         return this;
     }
-    Config.prototype.set = function (params) {
+    set(params) {
         this.params = Object.assign(this.params, params);
         return this;
-    };
-    Config.prototype.get = function () {
+    }
+    get() {
         return this.params;
-    };
-    return Config;
-}());
+    }
+}
 exports.Config = Config;
 //# sourceMappingURL=config.js.map
